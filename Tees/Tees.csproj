@@ -194,32 +194,22 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201901291943243_InitialDatabase.cs" />
-    <Compile Include="Migrations\201901291943243_InitialDatabase.Designer.cs">
-      <DependentUpon>201901291943243_InitialDatabase.cs</DependentUpon>
+    <Compile Include="Migrations\201902050859036_InitialCreate.cs" />
+    <Compile Include="Migrations\201902050859036_InitialCreate.Designer.cs">
+      <DependentUpon>201902050859036_InitialCreate.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201901292016271_CategoryNameValidation.cs" />
-    <Compile Include="Migrations\201901292016271_CategoryNameValidation.Designer.cs">
-      <DependentUpon>201901292016271_CategoryNameValidation.cs</DependentUpon>
+    <Compile Include="Migrations\201902062235092_twocontextreset.cs" />
+    <Compile Include="Migrations\201902062235092_twocontextreset.Designer.cs">
+      <DependentUpon>201902062235092_twocontextreset.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201901292026200_ProductValidatin.cs" />
-    <Compile Include="Migrations\201901292026200_ProductValidatin.Designer.cs">
-      <DependentUpon>201901292026200_ProductValidatin.cs</DependentUpon>
+    <Compile Include="Migrations\201902062236518_update_user_fields.cs" />
+    <Compile Include="Migrations\201902062236518_update_user_fields.Designer.cs">
+      <DependentUpon>201902062236518_update_user_fields.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201902032114502_ProductImages.cs" />
-    <Compile Include="Migrations\201902032114502_ProductImages.Designer.cs">
-      <DependentUpon>201902032114502_ProductImages.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201902032213254_UniqueFileName.cs" />
-    <Compile Include="Migrations\201902032213254_UniqueFileName.Designer.cs">
-      <DependentUpon>201902032213254_UniqueFileName.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201902032310334_CreateProductImageMappings.cs" />
-    <Compile Include="Migrations\201902032310334_CreateProductImageMappings.Designer.cs">
-      <DependentUpon>201902032310334_CreateProductImageMappings.cs</DependentUpon>
-    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\StoreConfiguration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Address.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -360,23 +350,14 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201901291943243_InitialDatabase.resx">
-      <DependentUpon>201901291943243_InitialDatabase.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201902050859036_InitialCreate.resx">
+      <DependentUpon>201902050859036_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201901292016271_CategoryNameValidation.resx">
-      <DependentUpon>201901292016271_CategoryNameValidation.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201902062235092_twocontextreset.resx">
+      <DependentUpon>201902062235092_twocontextreset.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201901292026200_ProductValidatin.resx">
-      <DependentUpon>201901292026200_ProductValidatin.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201902032114502_ProductImages.resx">
-      <DependentUpon>201902032114502_ProductImages.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201902032213254_UniqueFileName.resx">
-      <DependentUpon>201902032213254_UniqueFileName.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201902032310334_CreateProductImageMappings.resx">
-      <DependentUpon>201902032310334_CreateProductImageMappings.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201902062236518_update_user_fields.resx">
+      <DependentUpon>201902062236518_update_user_fields.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

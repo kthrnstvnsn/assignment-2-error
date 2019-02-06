@@ -10,6 +10,7 @@ namespace Tees.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
+            ContextKey = "Tees.Models.ApplicationDbContext";
         }
 
         protected override void Seed(Tees.Models.ApplicationDbContext context)

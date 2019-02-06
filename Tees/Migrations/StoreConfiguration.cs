@@ -1,4 +1,4 @@
-﻿namespace Tees.Migrations
+﻿namespace Tees.Migrations.StoreConfiguration
 {
     using Models;
     using System.Collections.Generic;
