@@ -364,3 +364,4 @@ C:\Users\kathe\Desktop\158.258-assignment2-master\Tees\obj\Debug\Tees.Migrations
 C:\Users\kathe\Desktop\158.258-assignment2-master\Tees\obj\Debug\Tees.Migrations.InitialCreate.resources
 C:\Users\kathe\Desktop\158.258-assignment2-master\Tees\obj\Debug\Tees.Migrations.update_user_fields.resources
 C:\Users\kathe\Desktop\158.258-assignment2-master\Tees\obj\Debug\Tees.Migrations.StoreConfiguration.AddBasketLine.resources
+C:\Users\kathe\Desktop\158.258-assignment2-master\Tees\obj\Debug\Tees.Migrations.StoreConfiguration.addorders.resources
