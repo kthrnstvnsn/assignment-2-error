@@ -8,6 +8,8 @@ using System.Web;
 using System.Web.Mvc;
 using Tees.DAL;
 using Tees.Models;
+using Microsoft.AspNet.Identity.Owin;
+using System.Threading.Tasks;
 
 namespace Tees.Controllers
 {
@@ -15,18 +17,79 @@ namespace Tees.Controllers
     public class OrdersController : Controller
     {
         private StoreContext db = new StoreContext();
+        private ApplicationUserManager _userManager;
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ??
+                HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
 
         // GET: Orders
-        public ActionResult Index()
+        public ActionResult Index(string orderSearch, string startDate, string endDate, string
+        orderSortOrder)
         {
-            if (User.IsInRole("Admin"))
+            var orders = db.Orders.OrderBy(o => o.DateCreated).Include(o => o.OrderLines);
+            if (!User.IsInRole("Admin"))
             {
-                return View(db.Orders.ToList());
+                orders = orders.Where(o => o.UserID == User.Identity.Name);
             }
-            else
+            if (!String.IsNullOrEmpty(orderSearch))
             {
-                return View(db.Orders.Where(o => o.UserID == User.Identity.Name));
+                orders = orders.Where(o => o.OrderID.ToString().Equals(orderSearch) ||
+                o.UserID.Contains(orderSearch) || o.DeliveryName.Contains(orderSearch) ||
+                o.DeliveryAddress.AddressLine1.Contains(orderSearch) ||
+                o.DeliveryAddress.AddressLine2.Contains(orderSearch) ||
+                o.DeliveryAddress.Town.Contains(orderSearch) ||
+                o.DeliveryAddress.County.Contains(orderSearch) ||
+                o.DeliveryAddress.Postcode.Contains(orderSearch) ||
+                o.TotalPrice.ToString().Equals(orderSearch) ||
+                o.OrderLines.Any(ol => ol.ProductName.Contains(orderSearch)));
             }
+            DateTime parsedStartDate;
+            if (DateTime.TryParse(startDate, out parsedStartDate))
+            {
+                orders = orders.Where(o => o.DateCreated >= parsedStartDate);
+            }
+            DateTime parsedEndDate;
+            if (DateTime.TryParse(endDate, out parsedEndDate))
+            {
+                orders = orders.Where(o => o.DateCreated <= parsedEndDate);
+            }
+            ViewBag.DateSort = String.IsNullOrEmpty(orderSortOrder) ? "date" : "";
+            ViewBag.UserSort = orderSortOrder == "user" ? "user_desc" : "user";
+            ViewBag.PriceSort = orderSortOrder == "price" ? "price_desc" : "price";
+            ViewBag.CurrentOrderSearch = orderSearch;
+            ViewBag.StartDate = startDate;
+            ViewBag.EndDate = endDate;
+            switch (orderSortOrder)
+            {
+                case "user":
+                    orders = orders.OrderBy(o => o.UserID);
+                    break;
+                case "user_desc":
+                    orders = orders.OrderByDescending(o => o.UserID);
+                    break;
+                case "price":
+                    orders = orders.OrderBy(o => o.TotalPrice);
+                    break;
+                case "price_desc":
+                    orders = orders.OrderByDescending(o => o.TotalPrice);
+                    break;
+                case "date":
+                    orders = orders.OrderBy(o => o.DateCreated);
+                    break;
+                default:
+                    orders = orders.OrderByDescending(o => o.DateCreated);
+                    break;
+            }
+            return View(orders);
         }
 
         // GET: Orders/Details/5
@@ -52,27 +115,53 @@ namespace Tees.Controllers
             }
         }
 
-        // GET: Orders/Create
-        public ActionResult Create()
+        // GET: Orders/Review
+        public async Task<ActionResult> Review()
         {
-            return View();
+            Basket basket = Basket.GetBasket();
+            Order order = new Order();
+            order.UserID = User.Identity.Name;
+            ApplicationUser user = await UserManager.FindByNameAsync(order.UserID);
+            order.DeliveryName = user.FirstName + " " + user.LastName;
+            order.DeliveryAddress = user.Address;
+            order.OrderLines = new List<OrderLine>();
+            foreach (var basketLine in basket.GetBasketLines())
+            {
+                OrderLine line = new OrderLine
+                {
+                    Product = basketLine.Product,
+                    ProductID =
+                basketLine.ProductID,
+                    ProductName = basketLine.Product.Name,
+                    Quantity =
+                basketLine.Quantity,
+                    UnitPrice = basketLine.Product.Price
+                };
+                order.OrderLines.Add(line);
+            }
+            order.TotalPrice = basket.GetTotalCost();
+            return View(order);
         }
 
         // POST: Orders/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "OrderID,UserID,DeliveryName,DeliveryAddress,TotalPrice,DateCreated")] Order order)
+        public ActionResult Create([Bind(Include = "UserID,DeliveryName,DeliveryAddress")] Order order)
         {
             if (ModelState.IsValid)
             {
+                order.DateCreated = DateTime.Now;
                 db.Orders.Add(order);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                //add the orderlines to the database after creating the order
+                Basket basket = Basket.GetBasket();
+                order.TotalPrice = basket.CreateOrderLines(order.OrderID);
+                db.SaveChanges();
+                return RedirectToAction("Details", new { id = order.OrderID });
             }
-
-            return View(order);
+            return RedirectToAction("Review");
         }
 
         // GET: Orders/Edit/5

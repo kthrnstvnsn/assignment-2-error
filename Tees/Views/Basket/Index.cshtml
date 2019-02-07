@@ -3,7 +3,9 @@
 @{
     ViewBag.Title = " Your Basket ";
 }
+
 <h2> @ViewBag.Title </h2>
+
 @if (Model.BasketLines.Count() > 0)
 {
     <div>
@@ -62,14 +64,17 @@ Model.BasketLines[i].Product.ProductImageMappings.OrderBy(pim
                 <hr />
             }
         }
-        <div class="row">
-            <div class="col-md-8">
-                @Html.DisplayNameFor(model => model.TotalCost)
-            </div>
-            <div class="col-md-1">
-                @Html.DisplayFor(model => model.TotalCost)
-            </div>
-        </div>
+                <div class="row">
+                    <div class="col-md-8">
+                        @Html.DisplayNameFor(model => model.TotalCost)
+                    </div>
+                    <div class="col-md-1">
+                        @Html.DisplayFor(model => model.TotalCost)
+                    </div>
+                    <div class="col-md-1">
+                        @Html.ActionLink("Order Now", "Review", "Orders", null, new { @class = "btn btn-sm btn-success" })
+                    </div>
+                </div>
     </div>
 }
 else
