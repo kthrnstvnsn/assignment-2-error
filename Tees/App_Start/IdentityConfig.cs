@@ -44,7 +44,17 @@ namespace Tees
                 user = new ApplicationUser
                 {
                     UserName = name,
-                    Email = name
+                    Email = name,
+                    FirstName = "Admin",
+                    LastName = "Admin",
+                    DateOfBirth = new DateTime(2000, 1, 1),
+                    Address = new Address
+                    {
+                        AddressLine1 = "1 Admin Street",
+                        Town = "Admin Town",
+                        County = "Admin County",
+                        Postcode = "Admin PostCode"
+                    }
                 };
                 var result = userManager.Create(user, password);
                 result = userManager.SetLockoutEnabled(user.Id, false);
@@ -55,6 +65,15 @@ namespace Tees
             {
                 var result = userManager.AddToRole(user.Id, role.Name);
             }
+            //Create users role
+            const string userRoleName = "Customers";
+            role = roleManager.FindByName(userRoleName);
+            if (role == null)
+            {
+                role = new IdentityRole(userRoleName);
+                var roleresult = roleManager.Create(role);
+            }
+
         }
     }
 

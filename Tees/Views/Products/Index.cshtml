@@ -11,8 +11,10 @@
         Model.Search + " found") @Model.Products.TotalItemCount products
     </p>
 <p>
-    @Html.ActionLink("Create New", "Create")
-
+    @if (Request.IsAuthenticated && User.IsInRole("Admin"))
+    {
+        @Html.ActionLink("Create New", "Create")
+    }
     @using (Html.BeginRouteForm("ProductsIndex", FormMethod.Get))
     {
         <label>Filter by category:</label>
@@ -24,7 +26,6 @@
         <input type="submit" value="Filter" />
         <input type="hidden" name="Search" id="Search" value="@Model.Search" />
     }
-
 </p>
 <table class="table">
     <tr>
@@ -68,9 +69,12 @@
                 @Html.DisplayFor(modelItem => item.Price)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
-                @Html.ActionLink("Details", "Details", new { id = item.ID }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                @if (Request.IsAuthenticated && User.IsInRole("Admin"))
+                {
+                    @Html.ActionLink("Edit", "Edit", new { id = item.ID })
+                    @Html.Raw(" | ")
+                    @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                }
             </td>
         </tr>
     }
