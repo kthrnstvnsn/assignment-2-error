@@ -13,5 +13,10 @@ namespace Tees.Controllers
         {
             return View();
         }
+        public ActionResult PageNotFound()
+        {
+            Response.StatusCode = 404;
+            return View();
+        }
     }
 }
