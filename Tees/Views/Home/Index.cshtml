@@ -8,7 +8,7 @@
     <div class="row">
         @foreach (var item in Model)
         {
-            <div class="col-md-3">
+            <div class="col-md-4">
                 @if (item.ProductImage != null)
                 {
                     <a href="@Url.Action("Details", "Products", new { id = item.Product.ID
@@ -25,6 +25,6 @@ item.ProductImage)">
     }
     </div>
     <p>
-        @Html.ActionLink("Shop Now >", "Index", "Products", null, new { @class = "btn btn-primary btn-lg" })
+        @Html.ActionLink("Shop All >", "Index", "Products", null, new { @class = "btn btn-primary btn-lg" })
 </p>
 </div>

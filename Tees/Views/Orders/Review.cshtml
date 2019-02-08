@@ -27,14 +27,14 @@
         }
         <div class="form-group">
             @Html.LabelFor(model => model.TotalPrice, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10 form-control-static">
+            <div class="col-md-10 form-control-static" style="margin-top:15px;font-weight:700;">
                 @Html.DisplayFor(model => Model.TotalPrice)
                 @Html.HiddenFor(model => Model.TotalPrice)
             </div>
         </div>
         <div class="form-group">
             @Html.LabelFor(model => model.UserID, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10 form-control-static">
+            <div class="col-md-10 form-control-static" style="margin-top:15px;">
                 @Html.DisplayFor(model => Model.UserID)
                 @Html.HiddenFor(model => Model.UserID)
             </div>

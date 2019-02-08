@@ -21,8 +21,9 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("View Categories", "Index", "Categories")</li>
-                    <li>@Html.RouteLink("View all our Products", "ProductsIndex")</li>
+                    <li><a href="/Products/Long%20Sleeve" title="Shop Long Sleeve Tees">Long Sleeve</a></li>
+                    <li><a href="/Products/Short%20Sleeve" title="Shop Short Sleeve Tees">Short Sleeve</a></li>
+                    <li><a href="/Products/Tanks" title="Shop Tank Tops">Tanks</a></li>
                     @*<li>@Html.ActionLink("Upload Product Images", "Index", "ProductImages")</li>*@
                     @if (Request.IsAuthenticated && User.IsInRole("Admin"))
                     {
@@ -30,13 +31,7 @@
                     }
                 </ul>
 
-                @using (Html.BeginRouteForm("ProductsIndex", FormMethod.Get, new { @class = "navbar-form navbar-left" }))
-                {
-                    <div class="form-group">
-                        @Html.TextBox("Search", null, new { @class = "form-control", @placeholder = "Looking for something?" })
-                    </div>
-                    <button type="submit" class="btn btn-default">Submit</button>
-                }
+                
 
                 @Html.Partial("_LoginPartial")
                 @Html.Action("Summary", "Basket")
@@ -47,7 +42,14 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            <p style="float:left;">&copy; @DateTime.Now.Year - Katherine Stevenson - 18047211 - Images from <a href="https://unsplash.com/" title="Unsplash">Unsplash</a></p>
+            @using (Html.BeginRouteForm("ProductsIndex", FormMethod.Get, new { @class = "search-bar" }))
+            {
+                <div class="form-group" style="float:left;">
+                    @Html.TextBox("Search", null, new { @class = "form-control", @placeholder = "Looking for something?" })
+                </div>
+                <button type="submit" class="btn btn-default search-bar-button">Search</button>
+            }
         </footer>
     </div>
 
