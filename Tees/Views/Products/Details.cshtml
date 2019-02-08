@@ -68,7 +68,7 @@
                 @Html.AntiForgeryToken()
                 @Html.HiddenFor(model => model.ID)
                 @Html.DropDownList("quantity", Enumerable.Range(1, 10).Select(i => new
-                SelectListItem { Text = i.ToString(), Value = i.ToString() }))
+                SelectListItem { Text = i.ToString(), Value = i.ToString() }), new { @class = "form-control" })
                 <input type="submit" class="btn btn-primary btn-xs" value="Add to Basket">
             }
         </dd>
@@ -82,3 +82,15 @@
     }
     @Html.ActionLink("Back to List", "Index")
 </p>
+@section Scripts {
+<script>
+    $(document).ready(function () {
+        $('a>img').click(function (evt) {
+        });
+        evt.preventDefault();
+        var thumbnailAddress = $(this).parent().attr('href');
+        var mainImage = $('dd > img');
+        mainImage.attr('src', thumbnailAddress);
+    });
+</script>
+}
